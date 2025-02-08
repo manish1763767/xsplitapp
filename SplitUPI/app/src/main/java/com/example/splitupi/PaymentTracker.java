@@ -13,6 +13,7 @@ public class PaymentTracker {
     }
 
     public void addPayment(String name, boolean isPaid) {
+        Log.d("PaymentTracker", "Adding payment for " + name + ": " + (isPaid ? "Paid" : "Not Paid"));
         paymentStatus.put(name, isPaid);
     }
 

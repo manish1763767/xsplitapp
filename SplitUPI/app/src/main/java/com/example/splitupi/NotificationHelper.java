@@ -33,6 +33,7 @@ public class NotificationHelper {
     }
 
     public void sendNotification(String title, String message) {
+        Log.d("NotificationHelper", "Sending notification: " + title + " - " + message);
         Notification notification = new Notification.Builder(context, CHANNEL_ID)
             .setContentTitle(title)
             .setContentText(message)
@@ -46,6 +47,15 @@ public class NotificationHelper {
     }
 
     // New method to send payment reminders
+    public void sendPaymentSuccess(String participant) {
+        String message = "Success: " + participant + ", your payment has been completed.";
+        sendNotification("Payment Success", message);
+    }
+
+    public void sendPaymentFailure(String participant) {
+        String message = "Failure: " + participant + ", there was an issue with your payment.";
+        sendNotification("Payment Failure", message);
+    }
     public void sendPaymentReminder(String splitId, String participant) {
         String message = "Reminder: " + participant + ", please complete your payment for split ID: " + splitId;
         sendNotification("Payment Reminder", message);

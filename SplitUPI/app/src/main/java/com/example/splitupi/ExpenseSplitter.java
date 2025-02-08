@@ -1,9 +1,9 @@
 package com.example.splitupi;
 
 import java.util.HashMap;
-import com.google.firebase.firestore.FirebaseFirestore; // Import Firestore
-import java.util.List; // Import List
-import android.util.Log; // Import Log
+import java.util.List;
+import com.google.firebase.firestore.FirebaseFirestore;
+import android.util.Log;
 
 public class ExpenseSplitter {
     private HashMap<String, Double> expenses;
@@ -22,21 +22,36 @@ public class ExpenseSplitter {
         return expenses;
     }
 
-    // New method to create a split transaction
+    // Method to create a split transaction
     public void createSplitTransaction(String creator, double totalAmount, List<String> participants) {
+        if (totalAmount <= 0) {
+            Log.w("ExpenseSplitter", "Attempted to create a split transaction with non-positive total amount.");
+            return;
+        }
+        if (participants == null || participants.isEmpty()) {
+            Log.w("ExpenseSplitter", "Attempted to create a split transaction with no participants.");
+            return;
+        }
+
+        Log.d("ExpenseSplitter", "Creating split transaction: Creator = " + creator 
+            + ", Total Amount = " + totalAmount 
+            + ", Participants = " + participants.size());
+
+        // Prepare data
         HashMap<String, Object> splitData = new HashMap<>();
         splitData.put("created_by", creator);
         splitData.put("total_amount", totalAmount);
         splitData.put("participants", participants);
         splitData.put("created_at", System.currentTimeMillis());
 
+        // Save to Firestore
         db.collection("splits")
             .add(splitData)
-            .addOnSuccessListener(documentReference -> {
-                Log.d("Firestore", "Split created with ID: " + documentReference.getId());
-            })
-            .addOnFailureListener(e -> {
-                Log.w("Firestore", "Error adding split", e);
-            });
+            .addOnSuccessListener(documentReference -> 
+                Log.d("Firestore", "Split created with ID: " + documentReference.getId())
+            )
+            .addOnFailureListener(e -> 
+                Log.w("Firestore", "Error adding split", e)
+            );
     }
 }

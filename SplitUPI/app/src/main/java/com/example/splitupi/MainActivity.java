@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, SplitExpenseActivity.class);
+                Toast.makeText(MainActivity.this, "Navigating to Split Expense", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, PaymentTrackerActivity.class);
+                Toast.makeText(MainActivity.this, "Navigating to Payment Tracker", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });

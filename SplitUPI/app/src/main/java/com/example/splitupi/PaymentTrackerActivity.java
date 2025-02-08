@@ -30,14 +30,18 @@ public class PaymentTrackerActivity extends AppCompatActivity {
             .get()
             .addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    StringBuilder statuses = new StringBuilder();
+                    StringBuilder statuses = new StringBuilder("Payment Statuses:\n\n");
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         HashMap<String, Object> data = (HashMap<String, Object>) document.getData();
-                        statuses.append("Split ID: ").append(document.getId()).append("\n");
-                        statuses.append("Participants: ").append(data.get("participants")).append("\n");
-                        statuses.append("Total Amount: ").append(data.get("total_amount")).append("\n\n");
+                        statuses.append("• Split ID: ").append(document.getId()).append("\n");
+                        statuses.append("• Participants: ").append(data.get("participants")).append("\n");
+                        statuses.append("• Total Amount: ").append(data.get("total_amount")).append("\n\n");
                     }
-                    paymentStatusTextView.setText(statuses.toString());
+                    if (statuses.length() == 0) {
+                        paymentStatusTextView.setText("No payment statuses available.");
+                    } else {
+                        paymentStatusTextView.setText(statuses.toString());
+                    }
                 } else {
                     Log.w("Firestore", "Error getting documents.", task.getException());
                 }

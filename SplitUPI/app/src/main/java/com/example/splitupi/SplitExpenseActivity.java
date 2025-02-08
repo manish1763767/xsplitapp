@@ -39,7 +39,8 @@ public class SplitExpenseActivity extends AppCompatActivity {
         String upiId = upiIdEditText.getText().toString();
         String participantsStr = participantsEditText.getText().toString();
 
-        if (amountStr.isEmpty() || upiId.isEmpty() || participantsStr.isEmpty()) {
+        if (amountStr.isEmpty() || upiId.isEmpty() || participantsStr.isEmpty() || Double.parseDouble(amountStr) <= 0) {
+            Toast.makeText(this, "Please fill all fields and ensure the amount is positive", Toast.LENGTH_SHORT).show();
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -57,7 +58,7 @@ public class SplitExpenseActivity extends AppCompatActivity {
         // Initiate UPI payment
         initiateUpiPayment(upiId, amountStr, "Expense Split");
 
-        Toast.makeText(this, "Expense split created", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Expense split created successfully", Toast.LENGTH_SHORT).show();
         finish(); // Close the activity
     }
 
